@@ -1,0 +1,9 @@
+Voraussetzungen:
+  - Haskell Platform (unter Windows besser die 32-Bit-Version)
+  - Paket picosat (enthält bereits den SAT-Solver Picosat).
+    Dieses Paket sollte sich einfach so installieren lassen:
+      cabal install picosat
+
+Beispiel:
+  ghc Sudoku.hs
+  ./Sudoku
