@@ -56,7 +56,7 @@ main = do
     Unsatisfiable ->
       putStr "unsatisfiable"
     Satisfiable eta -> do
-      let char x y = concat [ show i | i <- [1..9], eta ! (x, y, i) ]
+      let char x y = concat [ show i | i <- [1..9], eta ! (y, x, i) ]
           line y = concat [ char x y | x <- [0..8] ]
           result = concat $ [ line y ++ "\n" | y <- [0..8] ]
       putStr result
