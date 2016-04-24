@@ -132,7 +132,7 @@ public class Peterson {
                               || (line == 1 && line1 == 2 && turn1 == other(pid) && flag1 == flag)
                               || (line == 2 && flagOther == true && line1 == 3 && turn1 == turn && flag1 == flag)
                               || (line == 2 && flagOther == false && line1 == 4 && turn1 == turn && flag1 == flag)
-                              || (line == 3 && turn != pid && line1 == 4 && turn1 == turn && flag1 == flag)
+                              || (line == 3 && turn != pid && line1 == 2 && turn1 == turn && flag1 == flag)
                               || (line == 3 && turn == pid && line1 == 4 && turn1 == turn && flag1 == flag)
                               || (line == 4 && line1 == 0 && turn1 == turn && flag1 == false)) {
                         pidPossibilitiesForMove.add(
