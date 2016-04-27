@@ -1,0 +1,34 @@
+Die in der Vorlesung behandelten Operationen auf BDDs sind in
+bdd/BDDOperations.java zusammengefasst. Bitte lesen Sie die 
+dortige javadoc-Dokumentation.
+Die Operationen auf BDDs werden dort durch die Bibliothek 
+javabdd implementiert (http://javabdd.sourceforge.net).
+
+Beipielprogramm:
+  javac -cp .:javabdd-1.0b2.jar beispiele/Beispiel.java
+  java -cp .:javabdd-1.0b2.jar beispiele/Beispiel
+
+  javac -cp .:javabdd-1.0b2.jar beispiele/Adder.java
+  java -cp .:javabdd-1.0b2.jar beispiele/Adder
+
+  javac -cp .:javabdd-1.0b2.jar beispiele/Semaphore.java
+  java -cp .:javabdd-1.0b2.jar beispiele/Semaphore
+
+  javac -cp .:javabdd-1.0b2.jar beispiele/Peterson.java
+  java -cp .:javabdd-1.0b2.jar beispiele/Peterson
+
+  In der Datei beispiele/Beispiel.java findet sich ein Beispiel zur
+  Ausgabe von BDDs als Graphen im dot-Format.
+  Diese dot-Dateien koennen mit den Graphviz-Tools angezeigt werden.
+
+    dot -Tpdf b.dot > b.pdf
+
+  in pdf-Dateien umgewandelt werden.  (Benoetigt graphviz, auf Ubuntu
+  z.B. mit apt-get install graphviz installierbar.)
+
+  Es gibt auch Online-Tools zur Anzeige solcher Dateien,
+  z.B. https://mdaines.github.io/viz.js/
+
+  In der graphischen Darstellung entsprechen gestrichelte Kanten den
+  bei uns mit "F" beschrifteten Kanten.
+
