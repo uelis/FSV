@@ -184,6 +184,9 @@ tseitin' (BigAnd phis) = do
 satisfiable :: (Ord a, Eq a, Show a) => Formula a -> IO (Solution a)
 satisfiable phi = runWithSt $ do
   x <- tseitin phi
+  st <- get
+  liftIO $ putStrLn $ "Number of variables: " ++ (show (head (names st)))
+  liftIO $ putStrLn $ "Number of clauses: " ++ (show (length (clauses st)))
   cs <- gets clauses
   eta <- liftIO $ Picosat.solve ([x] : cs)
   solution eta

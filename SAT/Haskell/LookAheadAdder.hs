@@ -36,8 +36,8 @@ rippleAdd :: Int -> ([Formula Varname], Formula Varname)
 rippleAdd 0 = ([], FF)
 rippleAdd size =
   let (sumbits, c) = rippleAdd (size - 1)
-      (sum, carryout) = va (x (size - 1)) (y (size - 1)) c
-  in (sumbits ++ [sum], carryout)
+      (s, carryout) = va (x (size - 1)) (y (size - 1)) c
+  in (sumbits ++ [s], carryout)
 
 -----------------------------
 -- Lookahead Carry Adder
@@ -85,8 +85,8 @@ main =
   let size = 256 
   in do
     putStrLn $ "Teste Gleichheit fuer " ++ (show size) ++ " Bits."
-    eta <- satisfiable (Neg (equals size))
-    case eta of
+    result <- satisfiable (Neg (equals size))
+    case result of
       Unsatisfiable ->
         putStrLn "Lookahead- und Ripple-Addierer liefern gleiche Ergebnisse."
       Satisfiable eta -> do
