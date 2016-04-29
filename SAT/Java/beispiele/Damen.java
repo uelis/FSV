@@ -67,6 +67,7 @@ public class Damen {
   public static void main(String[] args) throws TimeoutException {
 
     Map<Object, Boolean> eta = satisfiable(damen());
+    System.out.println(damen());
     if (eta == null) {
       System.out.println("Nicht erfuellbar.");
     } else {
