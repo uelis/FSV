@@ -1,0 +1,53 @@
+-- Die Parameter des Prozesses sind die Prozessnummer sowie
+-- die von allen Prozessen geteilten Variablen.
+MODULE proc(i, turn, flag)
+VAR
+  -- Der Prozesszustand ist die aktuelle Zeile.
+  -- Prozesslokale Variablen wuerden ebenfalls hier angegeben.
+  line : {0, 1, 2, 3, 4};
+DEFINE
+  other := 1 - i;
+ASSIGN
+  init(line) := 0;
+  next(line) :=
+    case
+      line=0                : 1;
+      line=1                : 2;
+      line=2 & flag[other]  : 3;
+      line=2 & !flag[other] : 4;
+      line=3 & turn=other   : 2;
+      line=3 & turn=i       : 4;
+      line=4                : 0;
+    esac;
+  next(turn) :=
+    case
+      line=1: other;
+      TRUE  : turn;
+    esac;
+  next(flag[i]) :=
+    case
+      line=0 : TRUE;
+      line=4 : FALSE;
+      TRUE   : flag[i];
+    esac;
+JUSTICE
+  running
+
+
+MODULE main
+VAR
+  -- geteilte Variablen
+  turn : {0,1};
+  flag : array 0..1 of boolean;
+  -- Prozesse
+  p0: process proc(0, turn, flag);
+  p1: process proc(1, turn, flag);
+ASSIGN
+  init(turn) := 0;
+  init(flag[0]) := FALSE;
+  init(flag[1]) := FALSE;
+
+SPEC -- safety
+  AG(!(p0.line=4 & p1.line=4)) 
+SPEC -- liveness
+  AG(p0.line=2 -> AF(p0.line=4))

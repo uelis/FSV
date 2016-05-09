@@ -1,0 +1,40 @@
+MODULE main
+VAR 
+  p0 : {sleep, wait, work};
+  p1 : {sleep, wait, work};
+  s  : {free, occ}; 
+  running : {0, 1};
+ASSIGN
+  init(p0):=sleep;
+  init(p1):=sleep;
+  init(s):=free; 
+  next(p0) :=
+    case 
+      next(running)=0 & p0=sleep        : wait;
+      next(running)=0 & p0=wait&s=free  : work;
+      next(running)=0 & p0=work         : sleep;
+      TRUE                        : p0;
+    esac;
+  next(p1) :=
+    case 
+      next(running)=1 & p1=sleep        : wait;
+      next(running)=1 & p1=wait&s=free  : work;
+      next(running)=1 & p1=work         : sleep;
+      TRUE                        : p1;
+    esac;
+  next(s) :=
+    case
+      p0=wait & s=free & next(running)=0 : occ;
+      p1=wait & s=free & next(running)=1 : occ;
+	    p0=work & next(running)=0          : free;
+	    p1=work & next(running)=1          : free;
+      TRUE                               : s;
+	  esac;
+SPEC
+  AG(!(p0=work & p1=work))
+SPEC
+  AG(p0=wait -> AF p0=work)
+SPEC
+  AG(p0=wait -> EF p0=work)
+SPEC
+  EF(p0=work & E[p0=work U (!(p0=work) & E[!(p1=work) U p0=work])])  

@@ -1,0 +1,37 @@
+MODULE prc(selector, s, pid)
+VAR 
+  p : {sleep, wait, work};
+ASSIGN
+  init(p) := sleep;
+  next(p) :=
+    case 
+      selector=pid & p=sleep          : wait;
+      selector=pid & p=wait & s=free  : work;
+      selector=pid & p=work           : sleep;
+      TRUE                            : p;
+    esac;
+FAIRNESS selector=pid
+
+MODULE main
+VAR 
+  s  : {free, occ}; 
+  selector : {0, 1};
+  p0 : prc(selector, s, 0); 
+  p1 : prc(selector, s, 1);
+ASSIGN
+  init(s) := free;
+  next(s) :=
+    case
+      p0.p=wait & s=free & selector=0 : occ;
+      p1.p=wait & s=free & selector=1 : occ;
+	    p0.p=work & selector=0          : free;
+	    p1.p=work & selector=1          : free;
+      TRUE                            : s;
+	  esac;
+
+SPEC
+  AG(!(p0.p=work & p1.p=work))
+SPEC
+  AG(p0.p=wait -> AF p0.p=work)
+SPEC
+  EF(p0.p=work & E[p0.p=work U (!(p0.p=work) & E[!(p1.p=work) U p0.p=work])])  

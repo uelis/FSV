@@ -1,0 +1,33 @@
+MODULE bauer
+  VAR pos : {links, rechts};
+  ASSIGN
+    init(pos) := links;
+    next(pos) := case pos=links  : rechts;
+                      pos=rechts : links;
+                 esac;
+
+MODULE passagier(mitnehmen, bauer)
+  VAR pos : {links, rechts}; 
+  ASSIGN
+    init(pos) := links; 
+    next(pos):= case
+                  mitnehmen & pos = bauer.pos : next(bauer.pos);
+                  TRUE : pos; 
+                esac;
+   
+MODULE main
+  VAR 
+     bauer : bauer();
+     auswahl: {h, k, m, keiner};
+     hund : passagier(auswahl=h, bauer);
+     katze : passagier(auswahl=k, bauer);
+     maus : passagier(auswahl=m, bauer);
+
+  INVAR auswahl=h -> bauer.pos=hund.pos
+  INVAR auswahl=k -> bauer.pos=katze.pos
+  INVAR auswahl=m -> bauer.pos=maus.pos
+  INVAR katze.pos=hund.pos -> bauer.pos=katze.pos 
+  INVAR katze.pos=maus.pos -> bauer.pos=katze.pos
+
+  SPEC
+     !EF(bauer.pos=rechts & hund.pos=rechts & katze.pos=rechts & maus.pos=rechts)

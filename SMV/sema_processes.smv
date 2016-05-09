@@ -1,0 +1,35 @@
+MODULE prc(s)
+VAR 
+  p : {sleep, wait, work};
+ASSIGN
+  init(p) := sleep;
+  next(p) :=
+    case 
+      p=sleep          : wait;
+      p=wait & s=free  : work;
+      p=work           : sleep;
+      TRUE             : p;
+    esac;
+  next(s) :=
+    case
+      p=wait & s=free  : occ;
+	    p=work           : free;
+      TRUE             : s;
+	  esac;
+JUSTICE
+  running
+
+MODULE main
+VAR 
+  s  : {free, occ}; 
+  p0 : process prc(s); 
+  p1 : process prc(s);
+ASSIGN
+  init(s) := free;
+  
+SPEC
+  AG(!(p0.p=work & p1.p=work))
+SPEC
+  AG(p0.p=wait -> AF p0.p=work)
+SPEC
+  EF(p0.p=work & E[p0.p=work U (!(p0.p=work) & E[!(p1.p=work) U p0.p=work])])  

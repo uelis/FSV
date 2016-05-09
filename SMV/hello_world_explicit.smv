@@ -1,0 +1,14 @@
+MODULE main
+VAR 
+  request : boolean; 
+  status  : {ready, busy}; 
+INIT
+  status=ready
+
+TRANS
+  request & next(status)=busy  
+  | !request & next(status)=ready 
+  | !request & next(status)=busy
+
+SPEC
+  AG(request -> AF status = busy)
