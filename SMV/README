@@ -1,0 +1,10 @@
+Diese Beispiele koennen mit NuSMV ausgefuehrt werden. 
+NuSMV ist im CIP-Pool installiert. Auf der Kommandozeile
+fuehrt man zum Beispiel
+
+  NuSMV sema.smv
+
+aus. Es wird dann das Semaphoren-Beispiel ueberprueft.
+
+Ausfuehrliche Dokumentation zu NuSMV findet man auf der 
+NuSMV-Homepage: <http://nusmv.fbk.eu/>
