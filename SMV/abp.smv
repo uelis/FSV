@@ -1,0 +1,88 @@
+MODULE Sender()
+VAR
+  ack_in: {Nothing, 0, 1};
+  message_out: {Nothing, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z};
+  bit_out: {0, 1};
+ASSIGN
+  init(bit_out) := 0;
+  init(message_out) := Nothing;
+  next(message_out) :=
+    case
+      sending & ack_in=bit_out  : Nothing;
+      sending & ack_in!=bit_out : message_out;
+      !sending                  : {a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z};
+    esac;
+  next(bit_out) :=
+    case
+      sending & ack_in=bit_out  : 1 - bit_out;
+      TRUE                      : bit_out;
+    esac;
+DEFINE
+  sending := (message_out != Nothing);
+
+MODULE Receiver()
+VAR
+  bit_in: {Nothing, 0, 1};
+  message_in: {Nothing, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z};
+  ack_out: {0, 1};
+  expected: {0, 1};
+  received: {Nothing, a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,r,s,t,u,v,w,x,y,z};
+ASSIGN
+  init(ack_out) := 1;
+  init(expected) := 0;
+  next(ack_out) :=
+    case
+      bit_in=expected  : expected;
+      TRUE             : ack_out;
+    esac;
+  next(expected) :=
+    case
+      bit_in=expected  : 1 - expected;
+      TRUE             : expected;
+    esac;
+  next(received) :=
+    case
+      bit_in=expected  : message_in;
+      TRUE             : Nothing;
+    esac;
+
+MODULE Channel(sender, receiver)
+VAR
+  errorTo: boolean;
+  errorFrom: boolean;
+ASSIGN
+  init(receiver.bit_in) := Nothing;
+  init(receiver.message_in) := Nothing;
+  init(sender.ack_in) := Nothing;
+  next(receiver.bit_in) :=
+    case
+      !errorTo & sender.message_out!=Nothing : sender.bit_out;
+      TRUE   : Nothing;
+    esac;
+  next(receiver.message_in) :=
+    case
+      !errorTo  : sender.message_out;
+      TRUE    : Nothing;
+    esac;
+  next(sender.ack_in) :=
+    case
+      !errorFrom  : receiver.ack_out;
+      TRUE        : Nothing;
+    esac;
+FAIRNESS !errorTo
+FAIRNESS !errorFrom
+
+MODULE main
+VAR
+  sender : Sender();
+  receiver : Receiver();
+  channel :  Channel(sender, receiver);
+  
+SPEC AG(AF sender.message_out=Nothing)
+
+SPEC
+  AG( sender.message_out=Nothing ->
+       AX(sender.message_out=a -> A[ receiver.received=Nothing U receiver.received=a ]) )
+SPEC
+  AG( sender.message_out=Nothing ->
+       AX(sender.message_out=b -> A[ receiver.received=Nothing U receiver.received=b ]) )
