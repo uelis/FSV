@@ -1,0 +1,52 @@
+MODULE p(x)
+VAR
+  u: 1..20;
+  v: 1..20;
+  w: 1..20;
+  line: {1,2,3,4,5, error};
+ASSIGN
+  init(line) := 1;
+  next(line) :=
+    case
+      line=1 : 2;
+      line=2 : 3;
+      line=3 : 4;
+      line=4 & u + v > 20 : error;
+      line=4 : 5;
+      line=5 : 2;
+      line=error : error;
+    esac;
+  next(u) :=
+    case
+      line=2 : x;
+      TRUE   : u;
+    esac;
+  next(v) :=
+    case
+      line=3 : x;
+      TRUE   : v;
+    esac;
+  next(w) :=
+    case
+      line=4 & u + v <= 20: u + v;
+      TRUE   : w;
+    esac;
+  next(x) :=
+    case
+      line=1 : 1;
+      line=5 : w;
+      TRUE   : x;
+    esac;
+
+MODULE main
+VAR
+  x: 1..20;
+  z: 1..20;
+  p1: process p(x);
+  p2: process p(x);
+ASSIGN
+  init(x) := 1;
+  init(z) := 1..20;
+  next(z) := z;
+SPEC !EF(x=12);
+SPEC EF(x=z);
