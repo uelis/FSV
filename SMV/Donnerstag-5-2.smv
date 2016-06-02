@@ -1,0 +1,60 @@
+MODULE p(x)
+VAR
+  line: {1,2,3,4,5,overflow};
+  u: 1..60;
+  v: 1..60;
+  w: 1..60;
+ASSIGN
+  init(line) := 1;
+  next(line) := case                  
+                  line=1: 2;
+                  line=2: 3;
+                  line=3: 4;
+                  line=4 & u+v>60: overflow;
+                  line=4: 5;
+                  line=5: 2;
+	          line=overflow: overflow;
+                esac;
+  next(u) := case
+                line=2: x;
+                TRUE  : u;
+             esac;                  
+  next(v) := case
+                line=3: x;
+                TRUE  : v;
+             esac;                  
+  next(w) := case
+                line=4 & u+v <= 60: u+v;
+                TRUE  : w;
+             esac;                  
+  next(x) := case
+                line=5: w;
+                TRUE  : x;
+             esac;                  
+
+MODULE main
+VAR
+  x: 1..60;
+  p1 : process p(x);
+  p2 : process p(x);
+ASSIGN
+  init(x) := 1;
+SPEC EF(x=3)
+SPEC EF(x=4)
+SPEC EF(x=5)
+SPEC EF(x=6)
+SPEC EF(x=7)
+SPEC EF(x=8)
+SPEC EF(x=9)
+SPEC EF(x=10)
+SPEC EF(x=11)
+SPEC EF(x=12)
+SPEC EF(x=13)
+SPEC EF(x=14)
+SPEC !EF(x=15)
+SPEC EF(x=16)
+SPEC EF(x=17)
+SPEC EF(x=18)
+SPEC EF(x=19)
+SPEC EF(x=60)
+

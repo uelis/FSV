@@ -1,0 +1,20 @@
+MODULE main
+VAR
+  s: {s0, s1, s2, s3, s4, s5};
+ASSIGN
+  next(s) := case
+               s=s0 : {s0, s1};
+               s=s1 : {s3};
+               s=s2 : {s1, s3};
+               s=s3 : {s2, s0};
+               s=s4 : {s2, s5};
+               s=s5 : {s5};
+             esac;
+  init(s) := {s0, s1, s2, s3};
+DEFINE
+  p := (s=s0) | (s=s4);
+  t := (s=s3);
+  q := (s=s1);
+  r := (s=s2) | (s=s5);
+SPEC
+  AG(AF(p | t))	
