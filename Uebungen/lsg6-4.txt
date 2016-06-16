@@ -1,0 +1,52 @@
+Aufgabe 6-4:
+kill(1) = {}
+kill(2) = {}
+kill(3) = {(y * y), ((2 * x) * y), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+kill(4) = {(2 * x), (x * x), ((2 * x) * y), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+kill(5) = {(i + 1)}
+gen(1) = {(x * x), (y * y), ((x * x) + (y * y))}
+gen(2) = {(x * x), (y * y), (((x * x) - (y * y)) + u), ((x * x) - (y * y))}
+gen(3) = {(2 * x)}
+gen(4) = {}
+gen(5) = {}
+
+
+Anfangstabelle:
+AE_entry(2) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_entry(3) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_entry(5) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_entry(4) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_entry(1) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_exit(2) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_exit(3) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_exit(5) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_exit(4) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+AE_exit(1) = {(2 * x), (x * x), (y * y), ((2 * x) * y), (i + 1), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y)), (((2 * x) * y) - v)}
+
+Iteration der Gleichungen liefert folgende Tabelle:
+AE_entry(2) = {(x * x), (y * y), ((x * x) + (y * y))}
+AE_entry(3) = {(x * x), (y * y), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y))}
+AE_entry(5) = {}
+AE_entry(4) = {(2 * x), (x * x)}
+AE_entry(1) = {}
+AE_exit(2) = {(x * x), (y * y), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y))}
+AE_exit(3) = {(2 * x), (x * x)}
+AE_exit(5) = {}
+AE_exit(4) = {}
+AE_exit(1) = {(x * x), (y * y), ((x * x) + (y * y))}
+
+Iteration der Gleichungen liefert folgende Tabelle:
+AE_entry(2) = {(x * x), (y * y), ((x * x) + (y * y))}
+AE_entry(3) = {(x * x), (y * y), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y))}
+AE_entry(5) = {}
+AE_entry(4) = {(2 * x), (x * x)}
+AE_entry(1) = {}
+AE_exit(2) = {(x * x), (y * y), ((x * x) + (y * y)), (((x * x) - (y * y)) + u), ((x * x) - (y * y))}
+AE_exit(3) = {(2 * x), (x * x)}
+AE_exit(5) = {}
+AE_exit(4) = {}
+AE_exit(1) = {(x * x), (y * y), ((x * x) + (y * y))}
+
+Tabelle hat sich in der letzten Iteration nicht geaendert
+und ist somit das Endergebnis.
+
