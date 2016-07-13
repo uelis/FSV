@@ -1,0 +1,26 @@
+MODULE main
+VAR
+  lineP : {a, b};
+  x : {0, 1, 2};
+  y : {0, 1, 2};
+  selector: {p, q};
+ASSIGN
+  init(lineP) := a;
+  init(x) := 0;
+  init(y) := 0;
+  next(lineP) := case selector=p & lineP=a : {a, b};
+                      selector=p & lineP=b : {a, b};
+                      selector=q : lineP;
+                 esac;
+  next(x) := case selector=p & lineP=a : 1;
+                  selector=p & lineP=b : x;
+                  selector=q : y;
+             esac;
+  next(y) := case selector=p & lineP=b : 2;
+                  TRUE: y;
+             esac;
+
+SPEC
+ AG(y!=0 -> AG(x!=0))
+             
+

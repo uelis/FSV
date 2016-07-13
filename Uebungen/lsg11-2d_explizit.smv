@@ -1,0 +1,15 @@
+MODULE main
+VAR
+  lineP : {a, b};
+  x : {0, 1, 2};
+  y : {0, 1, 2};
+INIT
+  x=0 & y=0 & lineP=a
+TRANS
+    lineP=a & next(lineP)=b & next(x)=1 & next(y)=y
+  | lineP=b & next(lineP)=a & next(x)=x & next(y)=2
+  | next(lineP)=lineP & next(x)=y & next(y)=y
+SPEC
+ AG(y!=0 -> AG(x!=0))
+             
+

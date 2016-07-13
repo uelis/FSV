@@ -1,0 +1,33 @@
+MODULE P(x, y)
+VAR
+  lineP : {a, b};
+ASSIGN
+  init(lineP) := a;
+  next(lineP) := case lineP=a : b;
+                      lineP=b : a;
+                 esac;
+  next(x) := case lineP=a : 1;
+                  TRUE : x;
+             esac;
+  next(y) := case lineP=b : 2;
+                  TRUE: y;
+             esac;
+             
+MODULE Q(x, y)
+ASSIGN
+  next(x) := y;
+  next(y) := y;
+
+MODULE main
+VAR
+  x : {0, 1, 2};
+  y : {0, 1, 2};
+  p: process P(x, y);
+  q: process Q(x, y);
+ASSIGN
+ init(x) := 0;
+ init(y) := 0;
+SPEC
+ AG(y!=0 -> AG(x!=0))
+             
+
