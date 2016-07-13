@@ -20,7 +20,7 @@ public class Hamilton {
   }
 
   /**
-   * Gib Variable q_{z,t} zurueck. Variablen werden nach Bedarf erzeugt.
+   * Gibt den Namen der Variable q_{z,t} zurueck.
    */
   private String q(int z, int t) {
       return "q(" + z + ", " + t + ")";
