@@ -4,6 +4,9 @@ Beipielprogramme:
  
   javac -cp .:org.sat4j.core.jar beispiele/Sudoku.java
   java -cp .:org.sat4j.core.jar beispiele/Sudoku
+
+  javac -cp .:org.sat4j.core.jar aufgabe11_1/Hamilton.java
+  java -cp .:org.sat4j.core.jar aufgabe11_1/Hamilton
  
 Für die Tests auf Erfüllbarkeit wird der Sat-Solver SAT4J verwendet.
 Dieser ist in der Datei org.sat4j.core.jar enthalten, welche für die
